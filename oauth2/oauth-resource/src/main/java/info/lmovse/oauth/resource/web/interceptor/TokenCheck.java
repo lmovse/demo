@@ -15,13 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class TokenCheck extends HandlerInterceptorAdapter {
 
+    private RedisTemplate<String, String> template;
+
     @Autowired
-    private RedisTemplate template;
+    public TokenCheck(final RedisTemplate<String, String> template) {
+        this.template = template;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String access_token = request.getParameter("access_token");
         return template.hasKey(access_token) != null && super.preHandle(request, response, handler);
     }
-
 }

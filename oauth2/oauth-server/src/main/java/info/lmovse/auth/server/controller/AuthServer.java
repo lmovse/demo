@@ -20,8 +20,12 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class AuthServer {
 
+    private RedisTemplate<String, String> template;
+
     @Autowired
-    private RedisTemplate template;
+    public AuthServer(final RedisTemplate<String, String> template) {
+        this.template = template;
+    }
 
     @GetMapping("/authorize")
     public String authUi(String redirect_uri, String client_id, Model model) {
@@ -34,8 +38,8 @@ public class AuthServer {
     public String auth(String username, String password, String redirect_uri, String client_id) {
         System.out.println("正在验证用户。。。");
         System.out.println("================");
-        System.out.println("验证身份成功");
-
+        System.out.println("验证身份成功, username: " + username
+                + ", password: " + password + "client_id: " + client_id);
         // 生成 code
         String code = UUIDUtils.getCode().toLowerCase();
         // 将 code 对应的用户存入 redis 中，这里假设用户 ID 为 1 ，并设置 10 分钟过期
@@ -50,16 +54,19 @@ public class AuthServer {
     public String code(String client_id, String redirect_uri, String code, String grant_type, String client_secret) {
         // 模拟 client 的合法性验证
         System.out.println("正在验证 client_id...");
-        System.out.println("client_id:" + client_id + ";" + "client_secret:" + client_secret);
+        System.out.println("client_id: " + client_id
+                + ", client_secret: " + client_secret
+                + ", redirect_url: " + redirect_uri
+                + ", grant_type: " + grant_type);
         System.out.println("验证通过");
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         // 验证 code 的合法性
         if (!template.hasKey(code)) {
             map.put("error", 400);
             map.put("message", "不存在的 code，请重新申请!");
         } else {
             // 生成 access_token 与 refresh_token 绑定当前用户 ID 存入 redis 中，并设置过期时间
-            String userId = (String) template.opsForValue().get(code);
+            String userId = template.opsForValue().get(code);
             String refreshToken = UUIDUtils.getCode().toLowerCase();
             String accessToken = UUIDUtils.getCode().toLowerCase();
             template.opsForValue().set(accessToken, userId);

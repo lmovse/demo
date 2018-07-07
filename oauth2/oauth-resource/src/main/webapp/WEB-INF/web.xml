@@ -8,7 +8,7 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- springmvc 前端控制器 -->
+	<!-- spring-mvc 前端控制器 -->
 	<servlet>
 		<servlet-name>auth</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
