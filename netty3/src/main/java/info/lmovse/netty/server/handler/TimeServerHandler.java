@@ -1,7 +1,6 @@
 package info.lmovse.netty.server.handler;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -15,12 +14,11 @@ public class TimeServerHandler extends SimpleChannelHandler {
 
     @Override
     public void channelConnected(final ChannelHandlerContext ctx, final ChannelStateEvent e) {
-        Channel channel = e.getChannel();
         // setup a 4 bytes(32 bit) capacity channelBuffer
         ChannelBuffer buffer = buffer(4);
-        int time = (int) (System.currentTimeMillis() / 1000L + 2208988800L);
+        int time = (int) (System.currentTimeMillis() / 1000L);
         buffer.writeInt(time);
-        ChannelFuture channelFuture = channel.write(buffer);
+        ChannelFuture channelFuture = e.getChannel().write(buffer);
         // when write completed, close channel
         channelFuture.addListener(ChannelFutureListener.CLOSE);
     }
