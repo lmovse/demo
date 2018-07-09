@@ -17,6 +17,7 @@
         <module>spring</module>
         <module>netty4</module>
         <module>nio</module>
+        <module>oio</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
