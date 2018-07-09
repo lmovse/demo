@@ -16,6 +16,7 @@
         <module>concurrent</module>
         <module>spring</module>
         <module>netty4</module>
+        <module>nio</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

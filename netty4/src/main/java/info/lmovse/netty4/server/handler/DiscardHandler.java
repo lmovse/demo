@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class DiscardHandler extends ChannelInboundHandlerAdapter {
 
+
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         ((ByteBuf) msg).release();

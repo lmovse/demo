@@ -1,6 +1,7 @@
 package info.lmovse.netty4.server;
 
-import info.lmovse.netty4.server.handler.EchoHandler;
+import info.lmovse.netty4.server.handler.TimePoJoEncodeHandler;
+import info.lmovse.netty4.server.handler.TimeServerPoJoHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -21,8 +22,7 @@ public class Server {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(final SocketChannel ch) {
-                            ch.pipeline()
-                                    .addLast(new EchoHandler());
+                            ch.pipeline().addLast(new TimePoJoEncodeHandler(), new TimeServerPoJoHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
