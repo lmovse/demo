@@ -1,4 +1,4 @@
-package info.lmovse.netty.client.handler;
+package info.lmovse.netty3.client.handler;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;

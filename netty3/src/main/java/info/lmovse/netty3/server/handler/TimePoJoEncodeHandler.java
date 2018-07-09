@@ -1,6 +1,6 @@
-package info.lmovse.netty.server.handler;
+package info.lmovse.netty3.server.handler;
 
-import info.lmovse.netty.pojo.UnixTime;
+import info.lmovse.netty3.pojo.UnixTime;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.ChannelHandlerContext;

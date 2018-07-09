@@ -1,4 +1,4 @@
-package info.lmovse.netty.pojo;
+package info.lmovse.netty3.pojo;
 
 import java.util.Date;
 

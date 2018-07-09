@@ -1,6 +1,6 @@
-package info.lmovse.netty.server.handler;
+package info.lmovse.netty3.server.handler;
 
-import info.lmovse.netty.pojo.UnixTime;
+import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -8,12 +8,18 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-public class TimeServerPoJoHandler extends SimpleChannelHandler {
+import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+
+public class TimeServerHandler extends SimpleChannelHandler {
 
     @Override
     public void channelConnected(final ChannelHandlerContext ctx, final ChannelStateEvent e) {
-        UnixTime unixTime = new UnixTime((int) (System.currentTimeMillis() / 1000L));
-        ChannelFuture channelFuture = e.getChannel().write(unixTime);
+        // setup a 4 bytes(32 bit) capacity channelBuffer
+        ChannelBuffer buffer = buffer(4);
+        int time = (int) (System.currentTimeMillis() / 1000L);
+        buffer.writeInt(time);
+        ChannelFuture channelFuture = e.getChannel().write(buffer);
+        // when write completed, close channel
         channelFuture.addListener(ChannelFutureListener.CLOSE);
     }
 

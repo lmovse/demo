@@ -1,20 +1,18 @@
-package info.lmovse.netty.server.handler;
+package info.lmovse.netty3.client.handler;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import info.lmovse.netty3.pojo.UnixTime;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-public class ReadDataServerHandler extends SimpleChannelHandler {
+public class TimeClientPoJoHandler extends SimpleChannelHandler {
 
     @Override
     public void messageReceived(final ChannelHandlerContext ctx, final MessageEvent e) {
-        ChannelBuffer bf = (ChannelBuffer) e.getMessage();
-        while (bf.readable()) {
-            System.out.println((char) bf.readByte());
-            System.out.flush();
-        }
+        UnixTime unixTime = (UnixTime) e.getMessage();
+        System.out.println(unixTime.toString());
+        e.getChannel().close();
     }
 
     @Override

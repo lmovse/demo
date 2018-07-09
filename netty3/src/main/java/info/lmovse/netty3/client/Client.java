@@ -1,7 +1,7 @@
-package info.lmovse.netty.client;
+package info.lmovse.netty3.client;
 
-import info.lmovse.netty.client.handler.TimeClientPoJoHandler;
-import info.lmovse.netty.client.handler.TimePoJoDecoderHandler;
+import info.lmovse.netty3.client.handler.TimeClientPoJoHandler;
+import info.lmovse.netty3.client.handler.TimePoJoDecodeHandler;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
@@ -15,7 +15,7 @@ public class Client {
         NioClientSocketChannelFactory factory =
                 new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
         ClientBootstrap bootstrap = new ClientBootstrap(factory);
-        bootstrap.setPipelineFactory(() -> Channels.pipeline(new TimePoJoDecoderHandler(), new TimeClientPoJoHandler()));
+        bootstrap.setPipelineFactory(() -> Channels.pipeline(new TimePoJoDecodeHandler(), new TimeClientPoJoHandler()));
         bootstrap.setOption("tcpNoDelay", true);
         bootstrap.setOption("keepAlive", true);
         bootstrap.connect(new InetSocketAddress("localhost", 7070));

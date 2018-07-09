@@ -1,12 +1,12 @@
-package info.lmovse.netty.client.handler;
+package info.lmovse.netty3.client.handler;
 
-import info.lmovse.netty.pojo.UnixTime;
+import info.lmovse.netty3.pojo.UnixTime;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.frame.FrameDecoder;
 
-public class TimePoJoDecoderHandler extends FrameDecoder {
+public class TimePoJoDecodeHandler extends FrameDecoder {
 
     @Override
     protected Object decode(final ChannelHandlerContext ctx, final Channel channel, final ChannelBuffer buffer) throws Exception {

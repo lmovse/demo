@@ -1,7 +1,7 @@
-package info.lmovse.netty.server;
+package info.lmovse.netty3.server;
 
-import info.lmovse.netty.server.handler.TimePoJoEncodeHandler;
-import info.lmovse.netty.server.handler.TimeServerPoJoHandler;
+import info.lmovse.netty3.server.handler.TimePoJoEncodeHandler;
+import info.lmovse.netty3.server.handler.TimeServerPoJoHandler;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
