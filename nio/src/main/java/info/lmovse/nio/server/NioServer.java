@@ -30,6 +30,7 @@ public class NioServer {
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
+                iterator.remove();
                 if (selectionKey.isAcceptable()) {
                     System.out.println("channel accept...");
                     ServerSocketChannel socketChannel = (ServerSocketChannel) selectionKey.channel();
@@ -63,7 +64,6 @@ public class NioServer {
                     channel.write(sendBuffer);
                     channel.register(selector, SelectionKey.OP_READ);
                 }
-                iterator.remove();
             }
         }
     }
