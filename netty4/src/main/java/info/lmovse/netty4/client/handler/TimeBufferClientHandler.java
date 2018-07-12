@@ -7,6 +7,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.util.Date;
 
 public class TimeBufferClientHandler extends ChannelInboundHandlerAdapter {
+
     private ByteBuf buf;
 
     @Override
@@ -24,13 +25,12 @@ public class TimeBufferClientHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) throws Exception {
         ByteBuf message = (ByteBuf) msg;
         buf.writeBytes(message);
-        try {
-            if (buf.readableBytes() >= 4) {
-                System.out.println(new Date(buf.readUnsignedInt() * 1000L));
-                ctx.close();
-            }
-        } finally {
-            buf.release();
+        message.release();
+        if (buf.readableBytes() >= 4) {
+            System.out.println(new Date(buf.readUnsignedInt() * 1000L));
+            ctx.close();
+            // wrong! cannot release cause of will continue receive data at next
+//            buf.release();
         }
     }
 }
