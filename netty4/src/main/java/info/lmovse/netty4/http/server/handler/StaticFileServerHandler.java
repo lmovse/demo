@@ -21,6 +21,8 @@ import static java.util.Objects.requireNonNull;
 
 public class StaticFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+    private static final int MAX_CHUNK_LENGTH = 8192;
+
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest msg) {
         String uri = msg.getUri();
@@ -51,7 +53,7 @@ public class StaticFileServerHandler extends SimpleChannelInboundHandler<FullHtt
             try {
                 file = new RandomAccessFile(filePath, "r");
                 // big content download, avoid outOfMemoryError
-                chunkedFile = new ChunkedFile(file, 0, file.length(), 8192);
+                chunkedFile = new ChunkedFile(file, 0, file.length(), MAX_CHUNK_LENGTH);
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             } finally {
