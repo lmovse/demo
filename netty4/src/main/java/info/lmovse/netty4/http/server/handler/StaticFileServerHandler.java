@@ -1,5 +1,6 @@
 package info.lmovse.netty4.http.server.handler;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,6 +17,8 @@ import io.netty.util.CharsetUtil;
 import java.io.File;
 import java.io.RandomAccessFile;
 
+import static io.netty.buffer.Unpooled.wrappedBuffer;
+import static java.io.File.separator;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -30,27 +33,28 @@ public class StaticFileServerHandler extends SimpleChannelInboundHandler<FullHtt
             return;
         }
         String[] pathAry = uri.substring(1, uri.length()).split("/");
-        String filePath = pathAry.length == 1 ? pathAry[0] : String.join(File.separator, pathAry);
+        String filePath = pathAry.length == 1 ? pathAry[0] : String.join(separator, pathAry);
         File fileResolver = new File(filePath.isEmpty() ? System.getProperty("user.dir") : filePath);
         HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-        if (fileResolver.isDirectory()) {
+        if (fileResolver.exists() && fileResolver.isDirectory()) {
             StringBuilder sb = new StringBuilder("<ul>");
             File[] files = fileResolver.listFiles();
             if (files != null && files.length > 0) {
                 for (final File file : files) {
                     sb.append("<li><a href=\"")
-                            .append(filePath.isEmpty() ? file.getName() : uri.concat(File.separator).concat(file.getName()))
+                            .append(filePath.isEmpty() ? file.getName() : uri.concat(separator).concat(file.getName()))
                             .append("\">")
                             .append(file.getName())
                             .append("</a></li>");
                 }
             }
             sb.append("</ul>");
-            ((DefaultFullHttpResponse) response).content().writeBytes(sb.toString().getBytes(CharsetUtil.UTF_8));
+            ByteBuf buf = wrappedBuffer(sb.toString().getBytes(CharsetUtil.UTF_8));
+            ((DefaultFullHttpResponse) response).content().writeBytes(buf);
             response.headers().add("content-type", "text/html;charset=UTF-8");
             ChannelFuture channelFuture = ctx.writeAndFlush(response);
             channelFuture.addListener(ChannelFutureListener.CLOSE);
-        } else {
+        } else if (fileResolver.exists() && fileResolver.isFile()) {
             RandomAccessFile file = null;
             ChunkedFile chunkedFile = null;
             try {
