@@ -22,7 +22,9 @@ public class TimeServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(final SocketChannel ch) {
-                            ch.pipeline().addLast(new TimePoJoEncodeHandler(), new TimeServerPoJoHandler());
+                            ch.pipeline()
+                                    .addLast("encode", new TimePoJoEncodeHandler())
+                                    .addLast("handler", new TimeServerPoJoHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
