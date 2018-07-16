@@ -53,13 +53,13 @@ public class NioServer {
                         return;
                     }
                     byte[] array = readBuffer.array();
-                    System.out.println(new String(array, 0, byteLength));
+                    System.out.println(new String(array, 0, byteLength, "UTF-8"));
                     channel.register(selector, SelectionKey.OP_WRITE);
                 } else if (selectionKey.isWritable()) {
                     System.out.println("channel writing...");
                     SocketChannel channel = (SocketChannel) selectionKey.channel();
                     sendBuffer.clear();
-                    sendBuffer.put("I am server".getBytes());
+                    sendBuffer.put("I am server".getBytes("UTF-8"));
                     sendBuffer.flip();
                     channel.write(sendBuffer);
                     channel.register(selector, SelectionKey.OP_READ);

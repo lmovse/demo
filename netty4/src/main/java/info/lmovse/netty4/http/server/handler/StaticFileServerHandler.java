@@ -11,13 +11,13 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.stream.ChunkedFile;
+import io.netty.util.CharsetUtil;
 
 import java.io.File;
 import java.io.RandomAccessFile;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
 
 public class StaticFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
@@ -35,15 +35,18 @@ public class StaticFileServerHandler extends SimpleChannelInboundHandler<FullHtt
         HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         if (fileResolver.isDirectory()) {
             StringBuilder sb = new StringBuilder("<ul>");
-            for (final File file : requireNonNull(fileResolver.listFiles())) {
-                sb.append("<li><a href=\"")
-                        .append(filePath.isEmpty() ? file.getName() : uri.concat(File.separator).concat(file.getName()))
-                        .append("\">")
-                        .append(file.getName())
-                        .append("</a></li>");
+            File[] files = fileResolver.listFiles();
+            if (files != null && files.length > 0) {
+                for (final File file : files) {
+                    sb.append("<li><a href=\"")
+                            .append(filePath.isEmpty() ? file.getName() : uri.concat(File.separator).concat(file.getName()))
+                            .append("\">")
+                            .append(file.getName())
+                            .append("</a></li>");
+                }
             }
             sb.append("</ul>");
-            ((DefaultFullHttpResponse) response).content().writeBytes(sb.toString().getBytes());
+            ((DefaultFullHttpResponse) response).content().writeBytes(sb.toString().getBytes(CharsetUtil.UTF_8));
             response.headers().add("content-type", "text/html;charset=UTF-8");
             ChannelFuture channelFuture = ctx.writeAndFlush(response);
             channelFuture.addListener(ChannelFutureListener.CLOSE);

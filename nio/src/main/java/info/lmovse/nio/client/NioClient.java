@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
+import java.time.temporal.ChronoUnit;
 import java.util.Iterator;
 
 import static java.nio.channels.SelectionKey.OP_CONNECT;
@@ -40,7 +42,7 @@ public class NioClient {
                 } else if (selectionKey.isWritable()) {
                     SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
                     sendBuffer.clear();
-                    sendBuffer.put("I am from client".getBytes());
+                    sendBuffer.put("I am from client".getBytes(Charset.forName("UTF-8")));
                     // should flip before readData from buffer
                     sendBuffer.flip();
                     socketChannel.write(sendBuffer);
@@ -56,7 +58,7 @@ public class NioClient {
                         channel.close();
                         return;
                     }
-                    System.out.println(new String(readBuffer.array(), 0, readByteLength));
+                    System.out.println(new String(readBuffer.array(), 0, readByteLength, Charset.forName("UTF-8")));
                     socketChannel.register(selector, OP_WRITE);
                 }
                 keyIterator.remove();

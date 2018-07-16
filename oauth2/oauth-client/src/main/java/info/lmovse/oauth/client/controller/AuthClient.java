@@ -7,9 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * Created by lmovse on 2017/8/25.
@@ -17,12 +23,12 @@ import java.net.URL;
  */
 @Controller
 public class AuthClient {
-    private static String ACCESS_TOKEN = null;
     private static final String CLIENT_ID = "asdjfa2323";
     private static final String CLIENT_SECRET = "123";
     private static final String AUTH_SERVER_URI = "http://localhost:8080";
     private static final String REDIRECT_URI = "http://localhost:8081/callback";
     private static final String RES_SERVER_URI = "http://localhost:8082";
+    private String ACCESS_TOKEN = null;
 
     @GetMapping("/")
     public String index(Model model) throws IOException {
@@ -42,7 +48,7 @@ public class AuthClient {
         if ((len = in.read(b)) != -1) {
             bos.write(b, 0, len);
         }
-        User user = JSON.parseObject(bos.toString(), User.class);
+        User user = JSON.parseObject(bos.toString("UTF-8"), User.class);
         model.addAttribute("CURRENT_USER", user);
         return "show";
     }
@@ -57,7 +63,7 @@ public class AuthClient {
             HttpURLConnection connectionGetToken = (HttpURLConnection) urlGetToken.openConnection();
             connectionGetToken.setRequestMethod("POST");
             connectionGetToken.setDoOutput(true);
-            OutputStreamWriter writer = new OutputStreamWriter(connectionGetToken.getOutputStream());
+            OutputStreamWriter writer = new OutputStreamWriter(connectionGetToken.getOutputStream(), Charset.forName("UTF-8"));
             writer.write("code=" + code + "&");
             writer.write("redirect_uri=" + REDIRECT_URI + "&");
             writer.write("client_id=" + CLIENT_ID + "&");
@@ -67,11 +73,12 @@ public class AuthClient {
             System.out.println(connectionGetToken.getResponseCode());
             if (connectionGetToken.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 StringBuilder sb = new StringBuilder();
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connectionGetToken.getInputStream(), "utf-8"));
-                String strLine;
-                while ((strLine = reader.readLine()) != null) {
-                    sb.append(strLine);
+                try (BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(connectionGetToken.getInputStream(), "utf-8"))) {
+                    String strLine;
+                    while ((strLine = reader.readLine()) != null) {
+                        sb.append(strLine);
+                    }
                 }
                 JSONObject jsonObject = JSONObject.parseObject(sb.toString());
                 // 客户端保存 access_token
