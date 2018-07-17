@@ -1,6 +1,6 @@
 package info.lmovse.netty4.http.server;
 
-import info.lmovse.netty4.http.handler.StaticFileServerHandler;
+import info.lmovse.netty4.http.server.handler.StaticFileServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

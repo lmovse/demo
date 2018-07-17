@@ -1,4 +1,4 @@
-package info.lmovse.netty4.http.handler;
+package info.lmovse.netty4.http.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;

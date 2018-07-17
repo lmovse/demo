@@ -6,10 +6,17 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 
 import java.util.List;
 
+import static info.lmovse.netty4.protocol.value.Constant.FLAG_EVENT;
+
 public class ExchangeDecoder extends MessageToMessageDecoder<ProtocolMessage> {
 
     @Override
     protected void decode(final ChannelHandlerContext ctx, final ProtocolMessage msg, final List<Object> out) {
-        out.add(msg.getBody());
+        int i = msg.getHeader().getFlag() & FLAG_EVENT;
+        if (i == FLAG_EVENT) {
+            out.add(msg);
+        } else {
+            out.add(msg.getBody());
+        }
     }
 }

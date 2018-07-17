@@ -21,6 +21,7 @@ public class KryoSerialization {
         Kryo kryo = new Kryo();
         Output output = new Output(outputStream);
         kryo.writeClassAndObject(output, data);
+        output.flush();
         output.close();
     }
 

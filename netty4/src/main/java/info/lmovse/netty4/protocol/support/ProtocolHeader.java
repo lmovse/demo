@@ -2,6 +2,7 @@ package info.lmovse.netty4.protocol.support;
 
 public class ProtocolHeader {
     private short magic;
+    // event two-way request
     private byte flag;
     private byte status;
     private long requestId;

@@ -16,6 +16,10 @@ public class ExchangeEncoder extends MessageToMessageEncoder<Object> {
 
     @Override
     protected void encode(final ChannelHandlerContext ctx, final Object msg, final List<Object> out) {
+        if (msg instanceof ProtocolMessage) {
+            out.add(msg);
+            return;
+        }
         byte flag = 0;
         long requestId = new Random(now().toEpochMilli()).nextLong();
         ProtocolHeader header = new ProtocolHeader(magic, flag, requestId);

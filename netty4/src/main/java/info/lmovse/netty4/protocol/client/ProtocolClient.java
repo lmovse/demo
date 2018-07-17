@@ -1,9 +1,11 @@
 package info.lmovse.netty4.protocol.client;
 
-import info.lmovse.netty4.protocol.codec.ProtocolCodec;
-import info.lmovse.netty4.protocol.handler.ClientHandler;
+import info.lmovse.netty4.protocol.client.handler.AuthRequestHandler;
+import info.lmovse.netty4.protocol.client.handler.ClientHandler;
+import info.lmovse.netty4.protocol.client.handler.HeartBeatRequestHandler;
 import info.lmovse.netty4.protocol.codec.ExchangeDecoder;
 import info.lmovse.netty4.protocol.codec.ExchangeEncoder;
+import info.lmovse.netty4.protocol.codec.ProtocolCodec;
 import info.lmovse.netty4.protocol.codec.TransportDecoder;
 import info.lmovse.netty4.protocol.codec.TransportEncoder;
 import info.lmovse.netty4.protocol.serialization.KryoSerialization;
@@ -35,6 +37,8 @@ public class ProtocolClient {
                                             .addLast("exchange-decoder", new ExchangeDecoder())
                                             .addLast("transport-encoder", new TransportEncoder(codec))
                                             .addLast("exchange-encoder", new ExchangeEncoder())
+                                            .addLast("auth-handler", new AuthRequestHandler())
+                                            .addLast("heartbeat-handler", new HeartBeatRequestHandler())
                                             .addLast("handler", new ClientHandler());
                                 }
                             })

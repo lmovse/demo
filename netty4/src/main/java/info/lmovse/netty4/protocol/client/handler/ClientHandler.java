@@ -1,4 +1,4 @@
-package info.lmovse.netty4.protocol.handler;
+package info.lmovse.netty4.protocol.client.handler;
 
 import info.lmovse.netty4.protocol.support.Person;
 import io.netty.channel.ChannelHandlerContext;
