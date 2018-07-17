@@ -4,6 +4,8 @@ import info.lmovse.netty4.protocol.support.ProtocolHeader;
 import info.lmovse.netty4.protocol.support.ProtocolMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static info.lmovse.netty4.protocol.support.RequestIdGenerator.generateId;
 import static info.lmovse.netty4.protocol.value.AuthResult.SUCCESS;
@@ -17,6 +19,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
 
     private static final int HEARTBEAT_PERIOD = 6000;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeartBeatRequestHandler.class);
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
@@ -24,7 +27,7 @@ public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
         ProtocolHeader header = protocolMessage.getHeader();
         int i = header.getFlag() & FLAG_EVENT;
         if (FLAG_EVENT == i && protocolMessage.getBody() == SUCCESS) {
-            System.out.println("starting send heartbeat message...");
+            LOGGER.info("=== Staring sending heartbeat request");
             ctx.executor().scheduleAtFixedRate(() -> {
                 byte flag = FLAG_REQUEST | FLAG_EVENT | FLAG_TWOWAY;
                 ProtocolHeader protocolHeader = new ProtocolHeader(MAGIC, flag, generateId());
@@ -32,7 +35,7 @@ public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
                 ctx.writeAndFlush(message);
             }, HEARTBEAT_PERIOD, HEARTBEAT_PERIOD, MILLISECONDS);
         } else if (FLAG_EVENT == i && protocolMessage.getBody() == HEARTBEAT) {
-            System.out.println("receive heartBeat message...");
+            LOGGER.info("===> Receive heartbeat response from server, reqId: {}", header.getRequestId());
         } else {
             ctx.fireChannelRead(msg);
         }

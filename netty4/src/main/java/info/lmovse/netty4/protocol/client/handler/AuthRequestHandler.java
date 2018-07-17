@@ -8,6 +8,8 @@ import info.lmovse.netty4.protocol.value.Event;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static info.lmovse.netty4.protocol.support.RequestIdGenerator.generateId;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_EVENT;
@@ -15,6 +17,8 @@ import static info.lmovse.netty4.protocol.value.Constant.FLAG_REQUEST;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_TWOWAY;
 
 public class AuthRequestHandler extends ChannelInboundHandlerAdapter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthRequestHandler.class);
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -30,10 +34,10 @@ public class AuthRequestHandler extends ChannelInboundHandlerAdapter {
         ProtocolHeader header = protocolMessage.getHeader();
         int i = header.getFlag() & FLAG_EVENT;
         if (i == FLAG_EVENT && protocolMessage.getBody() == AuthResult.SUCCESS) {
-            System.out.println("auth success!");
+            LOGGER.info("=== Auth Success!");
             ctx.fireChannelRead(msg);
         } else if (i == FLAG_EVENT && protocolMessage.getBody() == AuthResult.FAIL) {
-            System.out.println("auth failed!");
+            LOGGER.error("=== Auth Failed!");
             ctx.close().addListener(ChannelFutureListener.CLOSE);
         } else {
             ctx.fireChannelRead(msg);
