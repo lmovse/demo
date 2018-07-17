@@ -9,7 +9,7 @@ public class TransportDecoder extends LengthFieldBasedFrameDecoder {
     private ProtocolCodec codec;
 
     public TransportDecoder(final ProtocolCodec codec) {
-        super(1048576, 12, 4);
+        super(1024 * 1024, 12, 4);
         this.codec = codec;
     }
 

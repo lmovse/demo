@@ -43,7 +43,7 @@ public class ProtocolServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     .bind(7070)
-                    .sync();// bind port to accept incoming connections
+                    .sync(); // bind port to accept incoming connections
             // Wait until the server socket is closed
             // For this example, it won't be happen
             channelFuture.channel().closeFuture().sync();

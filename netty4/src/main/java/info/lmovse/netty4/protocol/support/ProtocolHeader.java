@@ -2,7 +2,6 @@ package info.lmovse.netty4.protocol.support;
 
 public class ProtocolHeader {
     private short magic;
-    // event two-way request
     private byte flag;
     private byte status;
     private long requestId;
@@ -18,10 +17,11 @@ public class ProtocolHeader {
     }
 
     public ProtocolHeader(final short magic, final byte flag, final long requestId) {
-        this.magic = magic;
-        this.status = 0;
-        this.flag = flag;
-        this.requestId = requestId;
+        this(magic, flag, (byte) 0, requestId, 0);
+    }
+
+    public ProtocolHeader(final short magic, final byte flag, final byte status, final long requestId) {
+        this(magic, flag, status, requestId, 0);
     }
 
     public short getMagic() {

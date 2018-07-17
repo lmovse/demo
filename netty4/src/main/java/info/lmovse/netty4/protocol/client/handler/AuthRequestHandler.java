@@ -9,6 +9,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import static info.lmovse.netty4.protocol.support.RequestIdGenerator.generateId;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_EVENT;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_REQUEST;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_TWOWAY;
@@ -18,7 +19,7 @@ public class AuthRequestHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         byte flag = FLAG_TWOWAY | FLAG_EVENT | FLAG_REQUEST;
-        ProtocolHeader header = new ProtocolHeader(Constant.MAGIC, flag, 0L);
+        ProtocolHeader header = new ProtocolHeader(Constant.MAGIC, flag, generateId());
         ProtocolMessage message = new ProtocolMessage(header, Event.AUTH);
         ctx.writeAndFlush(message);
     }

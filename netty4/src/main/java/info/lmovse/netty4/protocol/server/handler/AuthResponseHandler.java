@@ -8,7 +8,9 @@ import info.lmovse.netty4.protocol.value.Event;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import static info.lmovse.netty4.protocol.support.RequestIdGenerator.generateId;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_EVENT;
+import static info.lmovse.netty4.protocol.value.Constant.OK;
 
 public class AuthResponseHandler extends ChannelInboundHandlerAdapter {
 
@@ -19,7 +21,7 @@ public class AuthResponseHandler extends ChannelInboundHandlerAdapter {
         int i = header.getFlag() & FLAG_EVENT;
         if (i == FLAG_EVENT && message.getBody() == Event.AUTH) {
             System.out.println("receive auth request from remote address: " + ctx.channel().remoteAddress());
-            ProtocolHeader protocolHeader = new ProtocolHeader(Constant.MAGIC, FLAG_EVENT, 0L);
+            ProtocolHeader protocolHeader = new ProtocolHeader(Constant.MAGIC, FLAG_EVENT, OK, generateId());
             ProtocolMessage protocolMessage = new ProtocolMessage(protocolHeader, AuthResult.SUCCESS);
             ctx.writeAndFlush(protocolMessage);
         } else {
