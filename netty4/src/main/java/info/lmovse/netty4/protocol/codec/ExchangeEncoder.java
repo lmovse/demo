@@ -9,6 +9,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
+import static info.lmovse.netty4.protocol.value.Constant.FLAG_REQUEST;
+import static info.lmovse.netty4.protocol.value.Constant.FLAG_TWOWAY;
+
 public class ExchangeEncoder extends MessageToMessageEncoder<Object> {
 
     private static final short magic = (short) 0xbabe;
@@ -16,13 +19,8 @@ public class ExchangeEncoder extends MessageToMessageEncoder<Object> {
 
     @Override
     protected void encode(final ChannelHandlerContext ctx, final Object msg, final List<Object> out) {
-        if (msg instanceof ProtocolMessage) {
-            out.add(msg);
-            return;
-        }
-        byte flag = 0;
+        byte flag = FLAG_REQUEST | FLAG_TWOWAY;
         long requestId = random.nextLong();
-        ProtocolHeader header = new ProtocolHeader(magic, flag, requestId);
-        out.add(new ProtocolMessage(header, msg));
+        out.add(new ProtocolMessage(new ProtocolHeader(magic, flag, requestId), msg));
     }
 }

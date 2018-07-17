@@ -33,9 +33,9 @@ public class ProtocolServer {
                                     .addLast("transport-decoder", new TransportDecoder(codec))
                                     .addLast("exchange-decoder", new ExchangeDecoder())
                                     .addLast("transport-encoder", new TransportEncoder(codec))
-                                    .addLast("exchange-encoder", new ExchangeEncoder())
                                     .addLast("auth-handler", new AuthResponseHandler())
                                     .addLast("heartbeat-handler", new HeartBeatResponseHandler())
+                                    .addLast("exchange-encoder", new ExchangeEncoder())
                                     .addLast("handler", new ServerHandler());
                         }
                     })

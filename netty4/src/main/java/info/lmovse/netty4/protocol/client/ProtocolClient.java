@@ -36,9 +36,9 @@ public class ProtocolClient {
                                             .addLast("transport-decoder", new TransportDecoder(codec))
                                             .addLast("exchange-decoder", new ExchangeDecoder())
                                             .addLast("transport-encoder", new TransportEncoder(codec))
-                                            .addLast("exchange-encoder", new ExchangeEncoder())
                                             .addLast("auth-handler", new AuthRequestHandler())
                                             .addLast("heartbeat-handler", new HeartBeatRequestHandler())
+                                            .addLast("exchange-encoder", new ExchangeEncoder())
                                             .addLast("handler", new ClientHandler());
                                 }
                             })
