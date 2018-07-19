@@ -26,10 +26,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ProtocolClient {
 
+    // ensure there can be only one worker in client side
     private static final NioEventLoopGroup WORKER = new NioEventLoopGroup();
     private final Bootstrap bootstrap = new Bootstrap();
     private final ProtocolCodec codec = new ProtocolCodec(new KryoSerialization());
-    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     public static void main(String[] args) {
         new ProtocolClient().connect(new InetSocketAddress(7070));

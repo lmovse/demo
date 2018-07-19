@@ -28,7 +28,8 @@ public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
         int i = header.getFlag() & FLAG_EVENT;
         if (FLAG_EVENT == i && protocolMessage.getBody() == SUCCESS) {
             LOGGER.info("=== Staring sending heartbeat request");
-            ctx.executor().scheduleAtFixedRate(() -> {
+            // will start next task only previous task execute completed
+            ctx.executor().scheduleWithFixedDelay(() -> {
                 byte flag = FLAG_REQUEST | FLAG_EVENT | FLAG_TWOWAY;
                 ProtocolHeader protocolHeader = new ProtocolHeader(MAGIC, flag, generateId());
                 ProtocolMessage message = new ProtocolMessage(protocolHeader, HEARTBEAT);
