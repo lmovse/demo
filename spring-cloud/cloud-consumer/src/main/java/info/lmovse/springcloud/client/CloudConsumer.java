@@ -14,19 +14,19 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
-public class CloudClient {
+public class CloudConsumer {
 
     private final RestTemplate restTemplate;
     private final LoadBalancerClient loadBalancerClient;
 
     @Autowired
-    public CloudClient(final LoadBalancerClient loadBalancerClient) {
+    public CloudConsumer(final LoadBalancerClient loadBalancerClient) {
         this.restTemplate = new RestTemplate();
         this.loadBalancerClient = loadBalancerClient;
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(CloudClient.class, args);
+        SpringApplication.run(CloudConsumer.class, args);
     }
 
     @GetMapping("/invoke/{name}")

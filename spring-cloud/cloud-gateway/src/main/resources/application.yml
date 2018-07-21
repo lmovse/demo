@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: eureka-gateway
+
+server:
+  port: 8050
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+
+integration:
+  provider:
+    greeting-provider: eureka-provider
+
+zuul:
+  prefix: /api
+  routes:
+    cloud-provider:
+      path: /lmovse/**
+      serviceId: eureka-provider
