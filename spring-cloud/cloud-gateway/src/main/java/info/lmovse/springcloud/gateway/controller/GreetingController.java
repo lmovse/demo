@@ -15,7 +15,6 @@ public class GreetingController {
         this.greetingProvider = greetingProvider;
     }
 
-
     @GetMapping("/api/greeting/{name}")
     public String greeting(@PathVariable final String name) {
         return greetingProvider.sayHello(name);

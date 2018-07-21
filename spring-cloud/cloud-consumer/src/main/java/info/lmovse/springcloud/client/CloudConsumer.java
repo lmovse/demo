@@ -1,5 +1,7 @@
 package info.lmovse.springcloud.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class CloudConsumer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CloudConsumer.class);
     private final RestTemplate restTemplate;
     private final LoadBalancerClient loadBalancerClient;
 
@@ -33,7 +36,7 @@ public class CloudConsumer {
     public String sayHello(@PathVariable final String name) {
         ServiceInstance serviceInstance = loadBalancerClient.choose("eureka-provider");
         String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort();
-        System.out.println(url);
+        LOGGER.info("=== Service url: {}", url);
         return restTemplate.getForObject(url + "/say-hello/" + name, String.class);
     }
 }
