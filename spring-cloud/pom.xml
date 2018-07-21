@@ -12,9 +12,9 @@
     <artifactId>spring-cloud</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>cloud-client</module>
+        <module>cloud-consumer</module>
         <module>cloud-server</module>
-        <module>cloud-registry</module>
+        <module>cloud-provider</module>
     </modules>
 
 
