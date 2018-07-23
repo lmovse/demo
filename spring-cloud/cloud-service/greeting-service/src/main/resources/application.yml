@@ -1,11 +1,7 @@
 spring:
   application:
     name: greeting-service
-  zipkin:
-    base-url: http://localhost:8040
+  profiles:
+    active: dev
 server:
   port: 8090
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8080/eureka/
