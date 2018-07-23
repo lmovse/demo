@@ -16,6 +16,7 @@
         <module>cloud-server</module>
         <module>cloud-provider</module>
         <module>cloud-gateway</module>
+        <module>cloud-service</module>
     </modules>
 
     <dependencyManagement>
@@ -23,7 +24,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR1</version>
+                <version>Edgware.SR4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

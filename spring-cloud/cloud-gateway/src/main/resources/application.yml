@@ -7,16 +7,48 @@ server:
 
 eureka:
   client:
+    registry-fetch-interval-seconds: 5
     service-url:
       defaultZone: http://localhost:8080/eureka/
+  instance:
+    prefer-ip-address: true
 
 integration:
   provider:
     greeting-provider: eureka-provider
 
+# zuul 默认以服务名做映射
 zuul:
-  prefix: /api
-  routes:
-    cloud-provider:
-      path: /lmovse/**
-      serviceId: eureka-provider
+  host:
+    max-total-connections: 500
+    max-per-route-connections: 50
+    connect-timeout-millis: 6000
+    socket-timeout-millis: 6000
+  ribbon-isolation-strategy: thread
+#  prefix: /api
+#  routes:
+#    cloud-provider:
+#      path: /lmovse/**
+#      serviceId: eureka-provider
+
+ribbon:
+  read-timeout: 10000
+  connect-timeout: 10000
+  max-auto-retries: 0
+  max-auto-retries-next-server: 1
+  eureka:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds: 10
+
+management:
+  security:
+    enabled: false
+
+
