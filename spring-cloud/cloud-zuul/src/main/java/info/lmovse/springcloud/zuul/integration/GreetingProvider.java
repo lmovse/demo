@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.gateway.integration;
+package info.lmovse.springcloud.zuul.integration;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

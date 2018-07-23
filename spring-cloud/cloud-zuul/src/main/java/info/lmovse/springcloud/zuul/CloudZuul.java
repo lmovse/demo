@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.gateway;
+package info.lmovse.springcloud.zuul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @SpringCloudApplication
 @EnableFeignClients
-public class CloudGateway {
+public class CloudZuul {
 
     public static void main(String[] args) {
-        SpringApplication.run(CloudGateway.class, args);
+        SpringApplication.run(CloudZuul.class, args);
     }
 }
 

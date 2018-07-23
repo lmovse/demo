@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.gateway.fallback;
+package info.lmovse.springcloud.zuul.fallback;
 
 import com.netflix.hystrix.exception.HystrixTimeoutException;
 import lombok.extern.slf4j.Slf4j;

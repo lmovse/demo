@@ -1,6 +1,11 @@
 spring:
   application:
-    name: eureka-gateway
+    name: cloud-zuul
+  zipkin:
+    base-url: http://localhost:8040
+  sleuth:
+    sampler:
+      percentage: 1
 
 server:
   port: 8050
@@ -15,7 +20,7 @@ eureka:
 
 integration:
   provider:
-    greeting-provider: eureka-provider
+    greeting-provider: greeting-service
 
 # zuul 默认以服务名做映射
 zuul:
@@ -24,15 +29,15 @@ zuul:
     max-per-route-connections: 50
     connect-timeout-millis: 6000
     socket-timeout-millis: 6000
-  ribbon-isolation-strategy: THREAD # default is SEMAPHORE
+  ribbon-isolation-strategy: THREAD
   prefix: /api
-  ignored-services: * # all service will be ignored exclude following routes config
+  ignored-services: '*'
   routes:
-    eureka-provider: /eureka-provider/**
+    greeting-service: /greeting-service/**
     customer-service:
       path: /customer-service/**
       serviceId: customer-service
-      sensitiveHeaders: # set empty to make all headers forward to customer service
+      sensitiveHeaders:
 
 ribbon:
   read-timeout: 10000

@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.gateway.filter;
+package info.lmovse.springcloud.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
