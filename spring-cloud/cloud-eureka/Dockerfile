@@ -1,3 +1,5 @@
+FROM maven:3.5.0-jdk-8-alpine AS target
+COPY
 FROM openjdk:8u171-jdk-slim
 LABEL maintainer="Halozhang@gmail.com"
 COPY target/*.jar /cloud-server.jar
