@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.server;
+package info.lmovse.springcloud.service.greeting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;

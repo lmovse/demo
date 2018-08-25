@@ -1,4 +1,4 @@
-package info.lmovse.springcloud.server.controller;
+package info.lmovse.springcloud.service.greeting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

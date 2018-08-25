@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
 @SpringCloudApplication
-public class CustomerService {
+public class CustomerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CustomerService.class, args);
+        SpringApplication.run(CustomerApplication.class, args);
     }
 }
