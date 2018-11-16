@@ -7,7 +7,7 @@ import info.lmovse.netty4.protocol.codec.TransportDecoder;
 import info.lmovse.netty4.protocol.codec.TransportEncoder;
 import info.lmovse.netty4.protocol.serialization.KryoSerialization;
 import info.lmovse.netty4.protocol.server.handler.AuthResponseHandler;
-import info.lmovse.netty4.protocol.server.handler.HeartBeatResponseHandler;
+import info.lmovse.netty4.protocol.server.handler.HeartbeatResponseHandler;
 import info.lmovse.netty4.protocol.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -34,7 +34,7 @@ public class ProtocolServer {
                                     .addLast("exchange-decoder", new ExchangeDecoder())
                                     .addLast("transport-encoder", new TransportEncoder(codec))
                                     .addLast("auth-handler", new AuthResponseHandler())
-                                    .addLast("heartbeat-handler", new HeartBeatResponseHandler())
+                                    .addLast("heartbeat-handler", new HeartbeatResponseHandler())
                                     .addLast("exchange-encoder", new ExchangeEncoder())
                                     .addLast("handler", new ServerHandler());
                         }

@@ -16,10 +16,10 @@ import static info.lmovse.netty4.protocol.value.Constant.MAGIC;
 import static info.lmovse.netty4.protocol.value.Event.HEARTBEAT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
+public class HeartbeatRequestHandler extends ChannelInboundHandlerAdapter {
 
     private static final int HEARTBEAT_PERIOD = 6000;
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeartBeatRequestHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatRequestHandler.class);
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
@@ -27,7 +27,7 @@ public class HeartBeatRequestHandler extends ChannelInboundHandlerAdapter {
         ProtocolHeader header = protocolMessage.getHeader();
         int i = header.getFlag() & FLAG_EVENT;
         if (FLAG_EVENT == i && protocolMessage.getBody() == SUCCESS) {
-            LOGGER.info("=== Staring sending heartbeat request");
+            LOGGER.info("===> Staring sending heartbeat request");
             // will start next task only previous task execute completed
             ctx.executor().scheduleWithFixedDelay(() -> {
                 byte flag = FLAG_REQUEST | FLAG_EVENT | FLAG_TWOWAY;

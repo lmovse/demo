@@ -2,7 +2,7 @@ package info.lmovse.netty4.protocol.client;
 
 import info.lmovse.netty4.protocol.client.handler.AuthRequestHandler;
 import info.lmovse.netty4.protocol.client.handler.ClientHandler;
-import info.lmovse.netty4.protocol.client.handler.HeartBeatRequestHandler;
+import info.lmovse.netty4.protocol.client.handler.HeartbeatRequestHandler;
 import info.lmovse.netty4.protocol.codec.ExchangeDecoder;
 import info.lmovse.netty4.protocol.codec.ExchangeEncoder;
 import info.lmovse.netty4.protocol.codec.ProtocolCodec;
@@ -36,7 +36,7 @@ public class ProtocolClient {
         new ProtocolClient().connect(new InetSocketAddress(7070));
     }
 
-    public void connect(final SocketAddress address) {
+    private void connect(final SocketAddress address) {
         try {
             // basic config
             bootstrap.group(WORKER)
@@ -55,7 +55,7 @@ public class ProtocolClient {
                             .addLast("exchange-decoder", new ExchangeDecoder())
                             .addLast("transport-encoder", new TransportEncoder(codec))
                             .addLast("auth-handler", new AuthRequestHandler())
-                            .addLast("heartbeat-handler", new HeartBeatRequestHandler())
+                            .addLast("heartbeat-handler", new HeartbeatRequestHandler())
                             .addLast("exchange-encoder", new ExchangeEncoder())
                             .addLast("handler", new ClientHandler());
                 }

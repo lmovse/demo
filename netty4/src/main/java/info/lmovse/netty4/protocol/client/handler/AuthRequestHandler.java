@@ -34,10 +34,10 @@ public class AuthRequestHandler extends ChannelInboundHandlerAdapter {
         ProtocolHeader header = protocolMessage.getHeader();
         int i = header.getFlag() & FLAG_EVENT;
         if (i == FLAG_EVENT && protocolMessage.getBody() == AuthResult.SUCCESS) {
-            LOGGER.info("=== Auth Success!");
+            LOGGER.info("===> Auth Success!");
             ctx.fireChannelRead(msg);
         } else if (i == FLAG_EVENT && protocolMessage.getBody() == AuthResult.FAIL) {
-            LOGGER.error("=== Auth Failed!");
+            LOGGER.error("===> Auth Failed!");
             ctx.close().addListener(ChannelFutureListener.CLOSE);
         } else {
             ctx.fireChannelRead(msg);

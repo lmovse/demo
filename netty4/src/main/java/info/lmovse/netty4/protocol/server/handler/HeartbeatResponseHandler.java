@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import static info.lmovse.netty4.protocol.value.Constant.FLAG_EVENT;
 import static info.lmovse.netty4.protocol.value.Constant.MAGIC;
 
-public class HeartBeatResponseHandler extends ChannelInboundHandlerAdapter {
+public class HeartbeatResponseHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeartBeatResponseHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeartbeatResponseHandler.class);
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
