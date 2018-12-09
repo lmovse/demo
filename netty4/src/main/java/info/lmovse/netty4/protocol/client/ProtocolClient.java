@@ -3,14 +3,11 @@ package info.lmovse.netty4.protocol.client;
 import info.lmovse.netty4.protocol.client.handler.AuthRequestHandler;
 import info.lmovse.netty4.protocol.client.handler.ClientHandler;
 import info.lmovse.netty4.protocol.client.handler.HeartbeatRequestHandler;
-import info.lmovse.netty4.protocol.codec.ExchangeDecoder;
-import info.lmovse.netty4.protocol.codec.ExchangeEncoder;
-import info.lmovse.netty4.protocol.codec.ProtocolCodec;
-import info.lmovse.netty4.protocol.codec.TransportDecoder;
-import info.lmovse.netty4.protocol.codec.TransportEncoder;
+import info.lmovse.netty4.protocol.codec.*;
 import info.lmovse.netty4.protocol.serialization.KryoSerialization;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -63,7 +60,8 @@ public class ProtocolClient {
 
             // connect server
             ChannelFuture channelFuture = bootstrap.connect(address).sync();
-            channelFuture.channel().closeFuture().sync();
+            Channel channel = channelFuture.channel();
+            channel.closeFuture().sync();
         } catch (InterruptedException e) {
 //            can't shutdown nioEventGroup
 //            worker.shutdownGracefully();
